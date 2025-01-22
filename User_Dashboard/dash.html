@@ -1,0 +1,130 @@
+<?php
+include 'db_connect.php';
+
+// Example query to fetch user data
+$userId = 1; // Replace with session or login-based user ID
+$sql = "SELECT total_recycled_weight, recent_activity FROM users WHERE id = $userId";
+$result = $conn->query($sql);
+
+$totalRecycledWeight = "0 Kg";
+$recentActivity = "No recent activity.";
+
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $totalRecycledWeight = $row['total_recycled_weight'] . " Kg";
+    $recentActivity = $row['recent_activity'];
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - EcoSphere</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5fff5;
+            color: #2d5c2d;
+        }
+
+        .dashboard-header {
+            text-align: center;
+            padding: 20px;
+            background-color: #e8f5e9;
+            border-bottom: 2px solid #c8e6c9;
+        }
+
+        .dashboard-header h1 {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .dashboard-card {
+            background-color: #e8f5e9;
+            border: none;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .dashboard-card h5 {
+            font-size: 1.5rem;
+        }
+
+        .progress-bar {
+            background-color: #2d5c2d;
+        }
+
+        .quick-links {
+            margin-top: 30px;
+        }
+
+        .quick-links .btn {
+            background-color: #2d5c2d;
+            color: white;
+            margin: 10px 5px;
+        }
+
+        .quick-links .btn:hover {
+            background-color: #1b391b;
+        }
+    </style>
+</head>
+<body>
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+        <h1>Personalized User Dashboard</h1>
+        <p>Track your contributions and manage your activities.</p>
+    </div>
+
+    <div class="container mt-4">
+        <!-- Total Recycled Weight Section -->
+        <div class="dashboard-card">
+            <h5>Total Recycled Weight: <span class="text-success"><?php echo $totalRecycledWeight; ?></span></h5>
+            <div class="progress mt-3" style="height: 20px;">
+                <div class="progress-bar" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">75%</div>
+            </div>
+        </div>
+
+        <!-- Statistics Section -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="dashboard-card">
+                    <h5>Recent Activity</h5>
+                    <ul>
+                        <li><?php echo $recentActivity; ?></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="dashboard-card">
+                    <h5>Your Contributions</h5>
+                    <ul>
+                        <li>Total E-Waste Recycled: <?php echo $totalRecycledWeight; ?></li>
+                        <li>Badges Earned: 3</li>
+                        <li>Points Earned: 450</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Links Section -->
+        <div class="quick-links text-center">
+            <h5>Quick Links</h5>
+            <button class="btn">Find Recycling Centers</button>
+            <button class="btn">Schedule Pick-Up</button>
+            <button class="btn">View Upcycling Ideas</button>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <div class="footer">
+        <p>&copy; 2025 EcoSphere. All Rights Reserved. Developed by Adnan Faisal and Shiti Chowdhury.</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
